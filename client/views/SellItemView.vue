@@ -5,13 +5,13 @@ import { ref } from "vue";
 
 const name = ref("");
 const description = ref("");
-const cost = ref("");
+const cost = ref(0);
 const pictures = ref("");
 const email = ref("");
 
 async function sellItem() {
   await fetchy("/api/items", "POST", {
-    body: { name: name, cost: cost, description: description, pictures: pictures, contact: email },
+    body: { name: name.value, cost: cost.value, description: description.value, pictures: pictures.value, contact: email.value },
   });
   void router.push({ name: "Home" });
 }
@@ -39,7 +39,7 @@ async function sellItem() {
       </fieldset>
       <fieldset>
         <legend>Email</legend>
-        <input v-bind:value="email" type="email" placeholder="example@gmail.com" />
+        <input v-bind:value="email" type="text" placeholder="example@gmail.com" />
       </fieldset>
       <button type="submit" class="pure-button pure-button-primary">Post sale</button>
     </form>
