@@ -5,6 +5,7 @@ import { useUserStore } from "@/stores/user";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import SellItemView from "../views/SellItemView.vue";
 import SettingView from "../views/SettingView.vue";
 
 const router = createRouter({
@@ -19,6 +20,12 @@ const router = createRouter({
       path: "/setting",
       name: "Settings",
       component: SettingView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/sell",
+      name: "Sell Item",
+      component: SellItemView,
       meta: { requiresAuth: true },
     },
     {
