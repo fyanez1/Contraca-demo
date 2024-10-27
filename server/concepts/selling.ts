@@ -8,7 +8,7 @@ export interface SellDoc extends BaseDoc {
   name: string;
   cost: number;
   description: string;
-  pictures: Array<BinaryData>;
+  picture: string;
   contact: string;
   queue: Array<ObjectId>;
 }
@@ -26,8 +26,8 @@ export default class SellingConcept {
     this.items = new DocCollection<SellDoc>(collectionName);
   }
 
-  async create(user: ObjectId, name: string, cost: number, description: string, pictures: Array<BinaryData>, contact: string) {
-    const _id = await this.items.createOne({ user, name, cost, description, pictures, contact, queue: [] });
+  async create(user: ObjectId, name: string, cost: number, description: string, picture: string, contact: string) {
+    const _id = await this.items.createOne({ user, name, cost, description, picture, contact, queue: [] });
     return { msg: "Item put up for sale successfully!", item: await this.items.readOne({ _id }) };
   }
 
@@ -40,10 +40,10 @@ export default class SellingConcept {
     return await this.items.readMany({ user });
   }
 
-  async update(_id: ObjectId, name?: string, cost?: number, description?: string, pictures?: Array<BinaryData>, contact?: string) {
+  async update(_id: ObjectId, name?: string, cost?: number, description?: string, picture?: string, contact?: string) {
     // Note that if content or options is undefined, those fields will *not* be updated
     // since undefined values for partialUpdateOne are ignored.
-    await this.items.partialUpdateOne({ _id }, { name, cost, description, pictures, contact });
+    await this.items.partialUpdateOne({ _id }, { name, cost, description, picture, contact });
     return { msg: "Item successfully updated!" };
   }
 
@@ -64,7 +64,6 @@ export default class SellingConcept {
     if (!item) {
       throw new NotFoundError(`Item ${itemId} does not exist!`);
     } else {
-      console.log("item queue:", item.queue);
       return item.queue;
     }
   }

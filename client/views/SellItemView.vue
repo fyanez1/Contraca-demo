@@ -6,12 +6,12 @@ import { ref } from "vue";
 const name = ref("");
 const description = ref("");
 const cost = ref(0);
-const pictures = ref("");
+const picture = ref("");
 const email = ref("");
 
 async function sellItem() {
   await fetchy("/api/items", "POST", {
-    body: { name: name.value, cost: cost.value, description: description.value, pictures: pictures.value, contact: email.value },
+    body: { name: name.value, cost: cost.value.toString(), description: description.value, picture: picture.value, contact: email.value },
   });
   void router.push({ name: "Home" });
 }
@@ -22,26 +22,28 @@ async function sellItem() {
     <h1>Put item up for sale</h1>
     <form @submit.prevent="sellItem" class="pure-form">
       <fieldset>
-        <legend>Item name</legend>
-        <input v-bind:value="name" type="text" placeholder="name" />
+        <legend><b>Item name</b></legend>
+        <input v-model="name" type="text" placeholder="" />
       </fieldset>
       <fieldset>
-        <legend>Item description</legend>
-        <input v-bind:value="description" type="text" placeholder="description" />
+        <legend><b>Item description</b></legend>
+        <input v-model="description" type="text" placeholder="" />
       </fieldset>
       <fieldset>
-        <legend>Cost</legend>
-        <input v-bind:value="cost" type="number" placeholder="enter a number without '$'" />
+        <legend><b>Cost</b></legend>
+        <input v-model="cost" type="number" placeholder="enter a number without '$'" />
       </fieldset>
       <fieldset>
-        <legend>Pictures</legend>
-        <input v-bind:value="pictures" type="text" placeholder="" />
+        <legend><b>Picture</b> (image's access settings must be set to public)</legend>
+        <input v-model="picture" type="text" placeholder="enter Google Drive link" />
       </fieldset>
       <fieldset>
-        <legend>Email</legend>
-        <input v-bind:value="email" type="text" placeholder="example@gmail.com" />
+        <legend><b>Email</b></legend>
+        <input v-model="email" type="text" placeholder="" />
       </fieldset>
       <button type="submit" class="pure-button pure-button-primary">Post sale</button>
     </form>
+    <br />
+    <br />
   </main>
 </template>

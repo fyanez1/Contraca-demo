@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
 import HomeView from "../views/HomeView.vue";
+import ItemView from "../views/ItemView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import SellItemView from "../views/SellItemView.vue";
@@ -26,6 +27,12 @@ const router = createRouter({
       path: "/sell",
       name: "Sell Item",
       component: SellItemView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/item",
+      name: "View Item",
+      component: ItemView,
       meta: { requiresAuth: true },
     },
     {

@@ -158,6 +158,7 @@ class Routes {
 
   //////////////////////////////////// selling ////////////////////////////////////
   @Router.get("/items")
+  @Router.validate(z.object({ seller: z.string().optional() }))
   async getItems(seller?: string) {
     let items;
     if (seller) {
@@ -170,18 +171,18 @@ class Routes {
   }
 
   @Router.post("/items")
-  async createItem(session: SessionDoc, name: string, cost: number, description: string, pictures: Array<BinaryData>, contact: string) {
+  async createItem(session: SessionDoc, name: string, cost: number, description: string, picture: string, contact: string) {
     const user = Sessioning.getUser(session);
-    const created = await Selling.create(user, name, cost, description, pictures, contact);
+    const created = await Selling.create(user, name, cost, description, picture, contact);
     return { msg: created.msg, post: await Responses.item(created.item) };
   }
 
   @Router.patch("/items/:itemId")
-  async updateItem(session: SessionDoc, id: string, name?: string, cost?: number, description?: string, pictures?: Array<BinaryData>, contact?: string) {
+  async updateItem(session: SessionDoc, id: string, name?: string, cost?: number, description?: string, picture?: string, contact?: string) {
     const user = Sessioning.getUser(session);
     const oid = new ObjectId(id);
     await Selling.assertSellerIsUser(oid, user);
-    return await Selling.update(oid, name, cost, description, pictures, contact);
+    return await Selling.update(oid, name, cost, description, picture, contact);
   }
 
   @Router.delete("/items/:itemId")
@@ -195,8 +196,7 @@ class Routes {
   //////////////////////////////////// commenting ////////////////////////////////////
   @Router.get("/items/:itemId/comments")
   async getComents(itemId: ObjectId) {
-    let comments;
-    comments = await Commenting.getByItem(itemId);
+    const comments = await Commenting.getByItem(itemId);
     return Responses.comments(comments);
   }
 
@@ -285,17 +285,10 @@ class Routes {
     const user = Sessioning.getUser(session);
     const sellerOid = new ObjectId(seller);
     const itemOid = new ObjectId(item);
-    Rating.assertRaterIsUser(user, sellerOid, itemOid);
+    await Rating.assertRaterIsUser(user, sellerOid, itemOid);
     await Rating.changeRating(sellerOid, itemOid, user, rating);
     return { msg: "The rating has been updated." };
   }
-
-  //////////////////////////////////// messaging ////////////////////////////////////
-  @Router.get("/messages/:id")
-  async getMessages(session: SessionDoc, to: string) {}
-
-  @Router.post("/messages/:id")
-  async sendMessage(session: SessionDoc, to: string) {}
 }
 
 /** The web app. */
