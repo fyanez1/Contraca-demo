@@ -158,13 +158,19 @@ class Routes {
 
   //////////////////////////////////// selling ////////////////////////////////////
   @Router.get("/items")
-  @Router.validate(z.object({ seller: z.string().optional() }))
-  async getItems(seller?: string) {
+  @Router.validate(z.object({ user: z.string().optional() }))
+  async getItems(_id?: string, user?: string) {
     let items;
-    if (seller) {
-      const id = (await Authing.getUserByUsername(seller))._id;
+    console.log("FOUND ID", _id);
+    if (_id) {
+      console.log("id");
+      items = await Selling.getById(new ObjectId(_id));
+    } else if (user) {
+      console.log("user");
+      const id = (await Authing.getUserByUsername(user))._id;
       items = await Selling.getBySeller(id);
     } else {
+      console.log("no parameter");
       items = await Selling.getItems();
     }
     return Responses.items(items);
@@ -249,7 +255,7 @@ class Routes {
     const user = Sessioning.getUser(session);
     const itemOid = new ObjectId(itemId);
     await Selling.claimItem(itemOid, user);
-    return { msg: "Item claimed!" };
+    return { msg: "" };
   }
 
   @Router.patch("/items/:itemId/unclaim")
@@ -257,7 +263,7 @@ class Routes {
     const user = Sessioning.getUser(session);
     const itemOid = new ObjectId(itemId);
     await Selling.unclaimItem(itemOid, user);
-    return { msg: "Item unclaimed!" };
+    return { msg: "" };
   }
 
   //////////////////////////////////// rating ////////////////////////////////////

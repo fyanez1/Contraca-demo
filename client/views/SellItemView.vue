@@ -34,8 +34,8 @@ async function sellItem() {
         <input v-model="cost" type="number" placeholder="enter a number without '$'" />
       </fieldset>
       <fieldset>
-        <legend><b>Picture</b> (image's access settings must be set to public)</legend>
-        <input v-model="picture" type="text" placeholder="enter Google Drive link" />
+        <legend><b>Picture</b></legend>
+        <input v-model="picture" type="text" placeholder="enter image link" />
       </fieldset>
       <fieldset>
         <legend><b>Email</b></legend>

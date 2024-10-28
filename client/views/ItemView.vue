@@ -1,27 +1,23 @@
 <script setup lang="ts">
 import { fetchy } from "@/utils/fetchy";
-import { onBeforeMount, ref } from "vue";
+import { defineProps, onBeforeMount, ref } from "vue";
 
-const items = ref<Array<{ _id: string; name: string; description: string; pictures: string }>>([]);
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+});
+
 const comments = ref<Array<{ id: string; name: string; description: string; image: string; item: string; comment: string; author: string; dateCreated: string }>>([]);
 const newComment = ref<string>("");
-const tempItemId = ref<string>("671bb87c852fc97b047d0aae");
+const isClaimed = ref<boolean>(false);
+const queuePosition = ref<number>(0);
 
-async function getItemsBySeller() {
-  let query: Record<string, string> = { seller: "fyanez" };
-  let postResults;
+async function getComments() {
+  let query: Record<string, string> = { itemId: props.item._id };
   try {
-    postResults = await fetchy("/api/items", "GET", { query });
-  } catch (_) {
-    return;
-  }
-  items.value = postResults;
-}
-
-async function getComments(itemId: string) {
-  let query: Record<string, string> = { itemId: itemId };
-  try {
-    const commentResults = await fetchy(`/api/items/${itemId}/comments`, "GET", { query });
+    const commentResults = await fetchy(`/api/items/${props.item._id}/comments`, "GET", { query });
     comments.value = commentResults;
   } catch (error) {
     console.error("Error fetching comments:", error);
@@ -29,28 +25,82 @@ async function getComments(itemId: string) {
 }
 
 async function postComment() {
-  let query: Record<string, string> = { itemId: tempItemId.value, comment: newComment.value };
+  let query: Record<string, string> = { itemId: props.item._id, comment: newComment.value };
   try {
-    await fetchy(`/api/items/${tempItemId.value}/comments`, "POST", { query });
+    await fetchy(`/api/items/${props.item._id}/comments`, "POST", { query });
   } catch (error) {
     console.error("Error posting new comment:", error);
   }
-  await getComments(tempItemId.value);
+  await getComments();
+  newComment.value = "";
+}
+
+async function getQueuePosition() {
+  let query: Record<string, string> = { itemId: props.item.id };
+  try {
+    const position = await fetchy(`/api/items/${props.item._id}/position`, "GET", { query });
+    queuePosition.value = position;
+  } catch (error) {
+    console.error("Error getting queue position", error);
+  }
+}
+
+async function claimItem() {
+  let query: Record<string, string> = { itemId: props.item.id };
+  try {
+    await fetchy(`/api/items/${props.item._id}/claim`, "PATCH", { query });
+    isClaimed.value = true;
+  } catch (error) {
+    console.error("Error claiming item", error);
+  }
+  await getQueuePosition();
+}
+
+async function unclaimItem() {
+  let query: Record<string, string> = { itemId: props.item.id };
+  try {
+    await fetchy(`/api/items/${props.item._id}/unclaim`, "PATCH", { query });
+    isClaimed.value = false;
+  } catch (error) {
+    console.error("Error unclaiming item", error);
+  }
+  await getQueuePosition();
+}
+
+async function toggleClaim() {
+  if (isClaimed.value) {
+    await unclaimItem();
+  } else {
+    await claimItem();
+  }
 }
 
 onBeforeMount(async () => {
-  await getItemsBySeller();
-  await getComments("671bb87c852fc97b047d0aae");
+  await getComments();
+  await getQueuePosition();
 });
 </script>
 
 <template>
   <div class="container">
-    <div class="sidebar">
-      <h2>Image test</h2>
-      {{ items }}
-      <img src="https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/99486859-0ff3-46b4-949b-2d16af2ad421/custom-nike-dunk-high-by-you-shoes.png" alt="Description of the image" />
-      {{ items[3]?.name }}<br />
+    <div class="main-content">
+      <div class="image-section">
+        <img :src="item.picture" :alt="item.name" class="item-image" />
+        <p class="item-description"><b>Description:</b> {{ item.description }}</p>
+        <p class="item-contact"><b>Contact:</b> {{ item.contact }}</p>
+      </div>
+      <div class="item-name-section">
+        <h1>{{ item.name }}</h1>
+        <p class="seller-note">Seller may reach out to you if you are on the queue.</p>
+        <button @click="toggleClaim" class="action-button">
+          {{ isClaimed ? "Unclaim Item" : "Claim Item" }}
+        </button>
+        <p v-if="queuePosition.position > 0" class="queue-position">Position: {{ queuePosition.position }}</p>
+        <p class="item-cost">Price: ${{ item.cost }}</p>
+      </div>
+      <div class="item-details">
+        <!-- This div is kept empty for consistency with the original layout -->
+      </div>
     </div>
     <div class="comment-section">
       <ul>
@@ -77,21 +127,91 @@ onBeforeMount(async () => {
 <style scoped>
 .container {
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 80vh;
 }
 
-.sidebar {
+.main-content {
   width: 66.67%;
-  background-color: #e7e7e7;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-section {
+  width: 50%;
+  padding-right: 10px;
+}
+
+.item-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.item-contact {
+  margin-top: -10px;
+  font-size: 25px;
+}
+
+.item-name-section {
+  width: 33.33%;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-note {
+  color: rgb(50, 20, 216);
+  margin-bottom: 5px;
+  margin-top: 0px;
+}
+
+.action-button {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 8px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #45a049;
+}
+
+.queue-position {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.item-details {
+  width: 100%;
+  margin-top: 0px;
+}
+
+.item-cost {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #0f5a12;
+  font-size: 25px;
+}
+
+.item-description {
+  line-height: 1.6;
+  margin-top: 10px;
+  font-size: 25px;
 }
 
 .comment-section {
   width: 33.33%;
   font-family: Arial, sans-serif;
   padding: 20px;
+  border-left: 1px solid #ccc;
+  overflow-y: auto;
 }
 
 ul {
@@ -102,7 +222,7 @@ ul {
 .comment-box {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 5px;
+  padding: 10px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
 }
@@ -110,6 +230,7 @@ ul {
 .comment-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .comment-author {
@@ -118,6 +239,7 @@ ul {
 
 .comment-date {
   margin-left: 5px;
+  color: #666;
 }
 
 .comment-time {
@@ -126,20 +248,33 @@ ul {
 }
 
 .comment-text {
-  margin-top: 3px;
+  margin-top: 5px;
 }
 
 .comment-input {
   display: flex;
   align-items: center;
+  margin-top: 20px;
 }
 
 .comment-input input[type="text"] {
   flex-grow: 1;
-  padding: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .comment-input button {
   margin-left: 10px;
+  padding: 8px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-input button:hover {
+  background-color: #45a049;
 }
 </style>

@@ -2,14 +2,19 @@
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { computed, onBeforeMount } from "vue";
-import { RouterLink, RouterView, useRoute } from "vue-router";
+import { computed, onBeforeMount, ref } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import HomeView from "./views/HomeView.vue";
+import ItemView from "./views/ItemView.vue";
 
 const currentRoute = useRoute();
+const router = useRouter();
 const currentRouteName = computed(() => currentRoute.name);
 const userStore = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
+
+const selectedItem = ref();
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
@@ -19,6 +24,11 @@ onBeforeMount(async () => {
     // User is not logged in
   }
 });
+
+function handleViewItem(item: object) {
+  selectedItem.value = item;
+  void router.push({ name: "View Item" });
+}
 </script>
 
 <template>
@@ -34,17 +44,14 @@ onBeforeMount(async () => {
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
+        <li>
+          <RouterLink :to="{ name: 'Sell Item' }" :class="{ underline: currentRouteName == 'Sell Item' }"> Sell Item </RouterLink>
+        </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
         <li v-else>
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
-        </li>
-        <li>
-          <RouterLink :to="{ name: 'Sell Item' }" :class="{ underline: currentRouteName == 'Sell Item' }"> Sell Item </RouterLink>
-        </li>
-        <li>
-          <RouterLink :to="{ name: 'View Item' }" :class="{ underline: currentRouteName == 'View Item' }"> TEMP </RouterLink>
         </li>
       </ul>
     </nav>
@@ -52,7 +59,9 @@ onBeforeMount(async () => {
       <p>{{ toast.message }}</p>
     </article>
   </header>
-  <RouterView />
+  <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" />
+  <ItemView v-else-if="currentRouteName === 'View Item'" :item="selectedItem" />
+  <RouterView v-else />
 </template>
 
 <style scoped>
@@ -92,7 +101,7 @@ ul {
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: 1em;
+  gap: 2em;
 }
 
 .underline {

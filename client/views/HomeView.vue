@@ -1,48 +1,80 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
+import { ObjectId } from "mongodb";
 import { storeToRefs } from "pinia";
-import { onBeforeMount, ref } from "vue";
+import { defineEmits, onBeforeMount, ref } from "vue";
 
+const emit = defineEmits(["viewItem"]);
 const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
-const items = ref<Array<{ _id: string; name: string; description: string; picture: string }>>([]);
+const items = ref<Array<{ _id: ObjectId; name: string; description: string; picture: string; cost: number }>>([]);
 
-async function getItemsBySeller() {
-  let query: Record<string, string> = { seller: "fyanez" };
+async function getItems(_id?: string) {
+  let query: Record<string, string> = _id !== undefined ? { _id } : {};
   let postResults;
   try {
-    postResults = await fetchy("/api/items", "GET", { query });
+    console.log("QUERY", query);
+    postResults = await fetchy("/api/items", "GET", { query: query });
   } catch (_) {
     return;
   }
   items.value = postResults;
 }
 
+function viewItem(item: object) {
+  emit("viewItem", item);
+}
+
 onBeforeMount(async () => {
-  await getItemsBySeller();
+  await getItems();
 });
 </script>
 
 <template>
   <main>
-    <h1>Items for sale</h1>
-    <div class="item-images">
-      <div v-for="(image, index) in items" :key="index" class="image-container">
-        <img :src="image.picture" alt="image" class="item-image" />
+    <h1>Items for Sale</h1>
+    <div class="item-grid">
+      <div v-for="(item, index) in items" :key="index" class="item-card">
+        <div class="image-container">
+          <img :src="item.picture" :alt="item.name" class="item-image" @click="viewItem(item)" />
+        </div>
+        <div class="item-info">
+          <h3 class="item-name">{{ item.name }}</h3>
+          <p class="item-cost">${{ item.cost }}</p>
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+/* ... (styles remain unchanged) ... */
+</style>
+
+<style scoped>
 h1 {
   text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
 }
-.item-images {
+
+.item-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.item-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
 }
 
 .image-container {
@@ -55,5 +87,27 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover .item-image {
+  transform: scale(1.05);
+}
+
+.item-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.item-name {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.item-cost {
+  margin: 0;
+  font-weight: bold;
+  color: #4a4a4a;
 }
 </style>

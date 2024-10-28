@@ -18,15 +18,15 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/setting",
-      name: "Settings",
-      component: SettingView,
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/sell",
       name: "Sell Item",
       component: SellItemView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/setting",
+      name: "Settings",
+      component: SettingView,
       meta: { requiresAuth: true },
     },
     {

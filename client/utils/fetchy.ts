@@ -23,6 +23,8 @@ export async function fetchy(
     alert?: boolean;
   },
 ) {
+  console.log("fetchy called with options:", JSON.stringify(options));
+  console.log("fetchy ID", options?.query);
   options = options ?? {};
   options.alert = options.alert ?? true;
 

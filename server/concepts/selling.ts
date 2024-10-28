@@ -40,6 +40,10 @@ export default class SellingConcept {
     return await this.items.readMany({ user });
   }
 
+  async getById(_id: ObjectId) {
+    return await this.items.readMany({ _id });
+  }
+
   async update(_id: ObjectId, name?: string, cost?: number, description?: string, picture?: string, contact?: string) {
     // Note that if content or options is undefined, those fields will *not* be updated
     // since undefined values for partialUpdateOne are ignored.
