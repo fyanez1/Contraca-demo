@@ -12,7 +12,8 @@ const props = defineProps({
 const comments = ref<Array<{ id: string; name: string; description: string; image: string; item: string; comment: string; author: string; dateCreated: string }>>([]);
 const newComment = ref<string>("");
 const isClaimed = ref<boolean>(false);
-const queuePosition = ref<number>(0);
+const queuePosition = ref<object>();
+const queue = ref<Array<string>>([]);
 
 async function getComments() {
   let query: Record<string, string> = { itemId: props.item._id };
@@ -45,6 +46,16 @@ async function getQueuePosition() {
   }
 }
 
+async function getQueue() {
+  let query: Record<string, string> = { itemId: props.item.id };
+  try {
+    const queueResult = await fetchy(`/api/items/${props.item._id}/queue`, "GET", { query });
+    queue.value = queueResult;
+  } catch (error) {
+    console.error("Error getting queue position", error);
+  }
+}
+
 async function claimItem() {
   let query: Record<string, string> = { itemId: props.item.id };
   try {
@@ -54,6 +65,7 @@ async function claimItem() {
     console.error("Error claiming item", error);
   }
   await getQueuePosition();
+  await getQueue();
 }
 
 async function unclaimItem() {
@@ -65,6 +77,7 @@ async function unclaimItem() {
     console.error("Error unclaiming item", error);
   }
   await getQueuePosition();
+  await getQueue();
 }
 
 async function toggleClaim() {
@@ -78,6 +91,7 @@ async function toggleClaim() {
 onBeforeMount(async () => {
   await getComments();
   await getQueuePosition();
+  await getQueue();
 });
 </script>
 
@@ -88,15 +102,16 @@ onBeforeMount(async () => {
         <img :src="item.picture" :alt="item.name" class="item-image" />
         <p class="item-description"><b>Description:</b> {{ item.description }}</p>
         <p class="item-contact"><b>Contact:</b> {{ item.contact }}</p>
+        <p class="item-queue"><b>Queue:</b> {{ queue.queue }}</p>
       </div>
       <div class="item-name-section">
         <h1>{{ item.name }}</h1>
+        <p class="item-cost">Price: ${{ item.cost }}</p>
         <p class="seller-note">Seller may reach out to you if you are on the queue.</p>
         <button @click="toggleClaim" class="claim-button">
           {{ isClaimed ? "Unclaim Item" : "Claim Item" }}
         </button>
         <p v-if="queuePosition.position > 0" class="queue-position">Position: {{ queuePosition.position }}</p>
-        <p class="item-cost">Price: ${{ item.cost }}</p>
       </div>
       <div class="item-details">
         <!-- This div is kept empty for consistency with the original layout -->
@@ -151,7 +166,12 @@ onBeforeMount(async () => {
 
 .item-contact {
   margin-top: -10px;
-  font-size: 25px;
+  font-size: 21px;
+}
+
+.item-queue {
+  margin-top: -5px;
+  font-size: 21px;
 }
 
 .item-name-section {
@@ -195,15 +215,16 @@ onBeforeMount(async () => {
 
 .item-cost {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 33px;
   color: #c4877c;
   font-size: 25px;
+  margin-top: 10px;
 }
 
 .item-description {
   line-height: 1.6;
   margin-top: 10px;
-  font-size: 25px;
+  font-size: 21px;
 }
 
 .comment-section {
