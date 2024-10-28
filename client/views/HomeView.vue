@@ -48,10 +48,6 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped>
-/* ... (styles remain unchanged) ... */
-</style>
-
-<style scoped>
 h1 {
   text-align: center;
   color: #333;
@@ -66,7 +62,7 @@ h1 {
 }
 
 .item-card {
-  background-color: #fff;
+  background-color: #f2efef;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -102,12 +98,12 @@ h1 {
 .item-name {
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
-  color: #333;
+  color: #474350;
 }
 
 .item-cost {
   margin: 0;
   font-weight: bold;
-  color: #4a4a4a;
+  color: #474350;
 }
 </style>

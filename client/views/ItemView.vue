@@ -92,7 +92,7 @@ onBeforeMount(async () => {
       <div class="item-name-section">
         <h1>{{ item.name }}</h1>
         <p class="seller-note">Seller may reach out to you if you are on the queue.</p>
-        <button @click="toggleClaim" class="action-button">
+        <button @click="toggleClaim" class="claim-button">
           {{ isClaimed ? "Unclaim Item" : "Claim Item" }}
         </button>
         <p v-if="queuePosition.position > 0" class="queue-position">Position: {{ queuePosition.position }}</p>
@@ -162,24 +162,24 @@ onBeforeMount(async () => {
 }
 
 .seller-note {
-  color: rgb(50, 20, 216);
+  color: rgb(63, 55, 55);
   margin-bottom: 5px;
   margin-top: 0px;
 }
 
-.action-button {
+.claim-button {
   margin-top: 5px;
   margin-bottom: 10px;
   padding: 8px 15px;
-  background-color: #4caf50;
+  background-color: #474350;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.action-button:hover {
-  background-color: #45a049;
+.claim-button:hover {
+  background-color: #591616;
 }
 
 .queue-position {
@@ -196,7 +196,7 @@ onBeforeMount(async () => {
 .item-cost {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #0f5a12;
+  color: #c4877c;
   font-size: 25px;
 }
 
@@ -267,7 +267,7 @@ ul {
 .comment-input button {
   margin-left: 10px;
   padding: 8px 15px;
-  background-color: #4caf50;
+  background-color: #ae5858;
   color: white;
   border: none;
   border-radius: 4px;
@@ -275,6 +275,6 @@ ul {
 }
 
 .comment-input button:hover {
-  background-color: #45a049;
+  background-color: #d65151;
 }
 </style>

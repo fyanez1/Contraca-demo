@@ -35,12 +35,12 @@ function handleViewItem(item: object) {
   <header>
     <nav>
       <div class="title">
-        <img src="@/assets/images/logo.svg" />
+        <img src="@/assets/images/MIT_logo.svg.png" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1>Senior Sale</h1>
+          <h1 class="logo-title">Sale</h1>
         </RouterLink>
       </div>
-      <ul>
+      <ul class="nav-bar-names">
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
@@ -69,7 +69,7 @@ function handleViewItem(item: object) {
 
 nav {
   padding: 1em 2em;
-  background-color: lightgray;
+  background-color: #c4877c;
   display: flex;
   align-items: center;
 }
@@ -77,6 +77,10 @@ nav {
 h1 {
   font-size: 2em;
   margin: 0;
+}
+
+.logo-title {
+  color: #990a21;
 }
 
 .title {
