@@ -12,11 +12,16 @@ const props = defineProps({
 const comments = ref<Array<{ id: string; name: string; description: string; image: string; item: string; comment: string; author: string; dateCreated: string }>>([]);
 const newComment = ref<string>("");
 const isClaimed = ref<boolean>(false);
-const queuePosition = ref<{ position: number }>();
-const queue = ref<{ queue: Array<string> }>();
+const queuePosition = ref<number>(0);
+const queue = ref<Array<string>>([]);
 
 async function getComments() {
-  let query: Record<string, string> = { itemId: props.item._id };
+  let query: Record<string, string>;
+  if (props.item) {
+    query = { itemId: props.item._id };
+  } else {
+    query = {};
+  }
   try {
     const commentResults = await fetchy(`/api/items/${props.item._id}/comments`, "GET", { query });
     comments.value = commentResults;
@@ -102,7 +107,7 @@ onBeforeMount(async () => {
         <img :src="item.picture" :alt="item.name" class="item-image" />
         <p class="item-description"><b>Description:</b> {{ item.description }}</p>
         <p class="item-contact"><b>Contact:</b> {{ item.contact }}</p>
-        <p class="item-queue"><b>Queue:</b> {{ queue!.queue }}</p>
+        <p class="item-queue"><b>Queue:</b> {{ queue }}</p>
       </div>
       <div class="item-name-section">
         <h1>{{ item.name }}</h1>
@@ -111,7 +116,7 @@ onBeforeMount(async () => {
         <button @click="toggleClaim" class="claim-button">
           {{ isClaimed ? "Unclaim Item" : "Claim Item" }}
         </button>
-        <p v-if="queuePosition!.position > 0" class="queue-position">Position: {{ queuePosition!.position }}</p>
+        <p v-if="queuePosition > 0" class="queue-position">Position: {{ queuePosition }}</p>
       </div>
       <div class="item-details">
         <!-- This div is kept empty for consistency with the original layout -->
