@@ -107,7 +107,7 @@ onBeforeMount(async () => {
         <img :src="item.picture" :alt="item.name" class="item-image" />
         <p class="item-description"><b>Description:</b> {{ item.description }}</p>
         <p class="item-contact"><b>Contact:</b> {{ item.contact }}</p>
-        <p class="item-queue"><b>Queue:</b> {{ queue }}</p>
+        <!-- <p class="item-queue"><b>Queue:</b> {{ queue }}</p> -->
       </div>
       <div class="item-name-section">
         <h1>{{ item.name }}</h1>

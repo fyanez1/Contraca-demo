@@ -161,16 +161,12 @@ class Routes {
   @Router.validate(z.object({ user: z.string().optional() }))
   async getItems(_id?: string, user?: string) {
     let items;
-    console.log("FOUND ID", _id);
     if (_id) {
-      console.log("id");
       items = await Selling.getById(new ObjectId(_id));
     } else if (user) {
-      console.log("user");
       const id = (await Authing.getUserByUsername(user))._id;
       items = await Selling.getBySeller(id);
     } else {
-      console.log("no parameter");
       items = await Selling.getItems();
     }
     return Responses.items(items);

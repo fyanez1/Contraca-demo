@@ -13,7 +13,6 @@ async function getItems(_id?: string) {
   let query: Record<string, string> = _id !== undefined ? { _id } : {};
   let postResults;
   try {
-    console.log("QUERY", query);
     postResults = await fetchy("/api/items", "GET", { query: query });
   } catch (_) {
     return;
