@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
 import DocumentsView from "../views/DocumentsView.vue";
+import FinishedDocumentsView from "../views/FinishedDocumentsView.vue";
 import HomeView from "../views/HomeView.vue";
 import ItemView from "../views/ItemView.vue";
 import LoginView from "../views/LoginView.vue";
@@ -52,6 +53,11 @@ const router = createRouter({
       path: "/documents",
       name: "Documents",
       component: DocumentsView,
+    },
+    {
+      path: "/finished-documents",
+      name: "Finished Documents",
+      component: FinishedDocumentsView,
     },
     {
       path: "/:catchAll(.*)",

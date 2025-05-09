@@ -32,12 +32,12 @@ function handleViewItem(item: object) {
 </script>
 
 <template>
-  <header>
-    <nav>
+  <div class="app-layout">
+    <aside class="sidebar">
       <div class="title">
-        <img src="@/assets/images/MIT_logo.svg.png" />
+        <img src="@/assets/images/contraca_logo.png" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1 class="logo-title">Sale</h1>
+          <h1 class="logo-title">Contraca</h1>
         </RouterLink>
       </div>
       <ul class="nav-bar-names">
@@ -48,7 +48,7 @@ function handleViewItem(item: object) {
           <RouterLink :to="{ name: 'Documents' }" :class="{ underline: currentRouteName == 'Documents' }"> Documents </RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: 'Sell Item' }" :class="{ underline: currentRouteName == 'Sell Item' }"> Sell Item </RouterLink>
+          <RouterLink :to="{ name: 'Finished Documents' }" :class="{ underline: currentRouteName == 'Finished Documents' }"> Finished Documents </RouterLink>
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
@@ -57,61 +57,98 @@ function handleViewItem(item: object) {
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
         </li>
       </ul>
-    </nav>
-    <article v-if="toast !== null" class="toast" :class="toast.style">
-      <p>{{ toast.message }}</p>
-    </article>
-  </header>
-  <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" />
-  <ItemView v-else-if="currentRouteName === 'View Item'" :item="selectedItem" />
-  <RouterView v-else />
+    </aside>
+    <div class="main-content">
+      <article v-if="toast !== null" class="toast" :class="toast.style">
+        <p>{{ toast.message }}</p>
+      </article>
+      <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" />
+      <ItemView v-else-if="currentRouteName === 'View Item'" :item="selectedItem" />
+      <RouterView v-else />
+    </div>
+  </div>
 </template>
 
 <style scoped>
 @import "./assets/toast.css";
 
-nav {
-  padding: 1em 2em;
-  background-color: #c4877c;
+.app-layout {
   display: flex;
-  align-items: center;
+  min-height: 100vh;
 }
 
-h1 {
-  font-size: 2em;
-  margin: 0;
-}
-
-.logo-title {
-  color: #990a21;
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg, #6fe2c3 0%, #2ca88c 50%, #1b8b7a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2em 1em 2em 1em;
+  min-height: 100vh;
 }
 
 .title {
   display: flex;
   align-items: center;
   gap: 0.5em;
+  margin-bottom: 2em;
 }
 
 img {
   height: 2em;
 }
 
+.logo-title {
+  color: #fff !important;
+}
+
+.title a {
+  color: #fff !important;
+}
+
+ul.nav-bar-names {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 100%;
+}
+
+ul.nav-bar-names li {
+  width: 100%;
+}
+
+ul.nav-bar-names li a {
+  color: #fff;
+}
+
 a {
   font-size: large;
   color: black;
   text-decoration: none;
+  display: block;
+  width: 100%;
+  padding: 0.5em 0.8em;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
 
-ul {
-  list-style-type: none;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 2em;
-}
-
-.underline {
+a.underline, a:hover {
   text-decoration: underline;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2em 2em 2em 2em;
+  background: #f1f3f5;
+  min-height: 100vh;
+}
+
+.toast {
+  margin-bottom: 1em;
 }
 </style>
