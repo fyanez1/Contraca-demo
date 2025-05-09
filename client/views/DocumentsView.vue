@@ -4,27 +4,40 @@
       <span class="header-title">Document Automation</span>
       <span class="header-subtitle">| 42 Wallaby Way</span>
     </div>
-    <div class="action-buttons">
-      <button class="action-btn">Export Data as Spreadsheet</button>
-      <button class="action-btn">Push Data to CRM</button>
-      <button class="action-btn">Automate Closing Documents</button>
+    <div v-if="showFinished" class="breadcrumb-row">
+      <span class="breadcrumb-link" @click="goToDocuments">Documents</span>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span class="breadcrumb-current">Finished Documents</span>
     </div>
-    <div class="documents-grid">
-      <div v-for="doc in documents" :key="doc.title" class="doc-card">
-        <div class="doc-preview">
-          <embed :src="dummyPdf" type="application/pdf" width="60" height="80" />
-        </div>
-        <div class="doc-info">
-          <div class="doc-title">{{ doc.title }}</div>
-          <div class="doc-date">Recieved: {{ doc.date }}</div>
+    <div v-else class="breadcrumb-row">
+      <span class="breadcrumb-current">Documents</span>
+    </div>
+    <div v-if="!showFinished">
+      <div class="action-buttons">
+        <button class="action-btn">Export Data as Spreadsheet</button>
+        <button class="action-btn">Push Data to CRM</button>
+        <button class="action-btn" @click="goToFinished">Automate Closing Documents</button>
+      </div>
+      <div class="documents-grid">
+        <div v-for="doc in documents" :key="doc.title" class="doc-card">
+          <div class="doc-preview">
+            <embed :src="dummyPdf" type="application/pdf" width="60" height="80" />
+          </div>
+          <div class="doc-info">
+            <div class="doc-title">{{ doc.title }}</div>
+            <div class="doc-date">Recieved: {{ doc.date }}</div>
+          </div>
         </div>
       </div>
     </div>
+    <FinishedDocumentsView v-else />
   </main>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import dummyPdf from '@/assets/documents/mini_sample.pdf';
+import FinishedDocumentsView from './FinishedDocumentsView.vue';
 const documents = [
   { title: 'Purchase & Sale', date: '5/19/2025' },
   { title: 'Exclusive Right to Sell', date: '5/19/2025' },
@@ -39,6 +52,13 @@ const documents = [
   { title: 'Loan Status Update', date: '5/19/2025' },
   { title: 'Agency Disclosure and Election', date: '5/19/2025' },
 ];
+const showFinished = ref(false);
+function goToFinished() {
+  showFinished.value = true;
+}
+function goToDocuments() {
+  showFinished.value = false;
+}
 </script>
 
 <style scoped>
@@ -131,5 +151,30 @@ const documents = [
 .doc-date {
   font-size: 1rem;
   color: #b0b0b0;
+}
+.breadcrumb-row {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin-bottom: 1.2rem;
+  margin-left: 0.2rem;
+  gap: 0.5em;
+}
+.breadcrumb-link {
+  color: #3683c5;
+  font-weight: 600;
+  cursor: pointer;
+}
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+.breadcrumb-separator {
+  color: #b0b0b0;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.breadcrumb-current {
+  color: #b0b0b0;
+  font-weight: 600;
 }
 </style> 

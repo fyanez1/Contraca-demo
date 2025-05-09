@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 const showUploadModal = ref(false);
+const router = useRouter();
 function openUploadModal(e) {
   e.preventDefault();
   showUploadModal.value = true;
 }
-function closeUploadModal() {
+function goToDocuments() {
   showUploadModal.value = false;
+  router.push({ name: 'Documents' });
 }
 </script>
 
@@ -36,7 +39,7 @@ function closeUploadModal() {
         <h2>Upload Documents</h2>
         <input type="file" multiple />
         <div class="modal-actions">
-          <button class="modal-btn" @click="closeUploadModal">Open</button>
+          <button class="modal-btn" @click="goToDocuments">Open</button>
         </div>
       </div>
     </div>

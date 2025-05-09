@@ -42,19 +42,32 @@ function handleViewItem(item: object) {
       </div>
       <ul class="nav-bar-names">
         <li>
-          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }">
+            <span class="nav-icon">
+              <img src="/client/assets/images/home_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
+            </span>
+          </RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: 'Documents' }" :class="{ underline: currentRouteName == 'Documents' }"> Documents </RouterLink>
-        </li>
-        <li>
-          <RouterLink :to="{ name: 'Finished Documents' }" :class="{ underline: currentRouteName == 'Finished Documents' }"> Finished Documents </RouterLink>
+          <RouterLink :to="{ name: 'Documents' }" :class="{ underline: currentRouteName == 'Documents' }">
+            <span class="nav-icon">
+              <img src="/client/assets/images/document_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
+            </span>
+          </RouterLink>
         </li>
         <li v-if="isLoggedIn">
-          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
+          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }">
+            <span class="nav-icon">
+              <img src="/client/assets/images/settings_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
+            </span>
+          </RouterLink>
         </li>
         <li v-else>
-          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
+          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }">
+            <span class="nav-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 16 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.09.29.14.59.14.91s-.05.62-.14.91z"/></svg>
+            </span>
+          </RouterLink>
         </li>
       </ul>
     </aside>
@@ -150,5 +163,13 @@ a.underline, a:hover {
 
 .toast {
   margin-bottom: 1em;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
 }
 </style>
