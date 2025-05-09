@@ -45,6 +45,9 @@ function handleViewItem(item: object) {
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
         <li>
+          <RouterLink :to="{ name: 'Documents' }" :class="{ underline: currentRouteName == 'Documents' }"> Documents </RouterLink>
+        </li>
+        <li>
           <RouterLink :to="{ name: 'Sell Item' }" :class="{ underline: currentRouteName == 'Sell Item' }"> Sell Item </RouterLink>
         </li>
         <li v-if="isLoggedIn">

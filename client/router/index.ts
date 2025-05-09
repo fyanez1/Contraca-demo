@@ -2,6 +2,7 @@ import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
+import DocumentsView from "../views/DocumentsView.vue";
 import HomeView from "../views/HomeView.vue";
 import ItemView from "../views/ItemView.vue";
 import LoginView from "../views/LoginView.vue";
@@ -46,6 +47,11 @@ const router = createRouter({
           return { name: "Settings" };
         }
       },
+    },
+    {
+      path: "/documents",
+      name: "Documents",
+      component: DocumentsView,
     },
     {
       path: "/:catchAll(.*)",

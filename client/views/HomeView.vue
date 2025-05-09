@@ -1,108 +1,122 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-import { fetchy } from "@/utils/fetchy";
-import { ObjectId } from "mongodb";
-import { storeToRefs } from "pinia";
-import { defineEmits, onBeforeMount, ref } from "vue";
-
-const emit = defineEmits(["viewItem"]);
-const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
-const items = ref<Array<{ _id: ObjectId; name: string; description: string; picture: string; cost: number }>>([]);
-
-async function getItems(_id?: string) {
-  let query: Record<string, string> = _id !== undefined ? { _id } : {};
-  let postResults;
-  try {
-    postResults = await fetchy("/api/items", "GET", { query: query });
-  } catch (_) {
-    return;
-  }
-  items.value = postResults;
-}
-
-function viewItem(item: object) {
-  emit("viewItem", item);
-}
-
-onBeforeMount(async () => {
-  await getItems();
-});
+// No logic needed for this static UI
 </script>
 
 <template>
-  <main>
-    <h1>Items for Sale</h1>
-    <div class="item-grid">
-      <div v-for="(item, index) in items" :key="index" class="item-card">
-        <div class="image-container">
-          <img :src="item.picture" :alt="item.name" class="item-image" @click="viewItem(item)" />
+  <main class="doc-automation-container">
+    <div class="header-bar">
+      <span class="header-title">Document Automation</span>
+      <span class="header-subtitle">| 42 Wallaby Way</span>
+    </div>
+    <div class="main-content">
+      <button class="connect-btn">Connect your Transaction Platform</button>
+      <div class="platform-subtext">Dotloop, Lonewolf, Skyslope</div>
+      <div class="divider-row">
+        <div class="divider"></div>
+        <span class="or-text">OR</span>
+        <div class="divider"></div>
+      </div>
+      <div class="upload-box">
+        <div class="upload-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/></svg>
         </div>
-        <div class="item-info">
-          <h3 class="item-name">{{ item.name }}</h3>
-          <p class="item-cost">${{ item.cost }}</p>
-        </div>
+        <a href="#" class="upload-link">Upload Documents</a>
       </div>
     </div>
   </main>
 </template>
 
 <style scoped>
-h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
+.doc-automation-container {
+  max-width: 500px;
+  margin: 3rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 2.5rem 2rem 2rem 2rem;
 }
-
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
-  padding: 0 1rem;
+.header-bar {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+  color: #222;
 }
-
-.item-card {
-  background-color: #f2efef;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.item-card:hover {
-  transform: translateY(-5px);
-}
-
-.image-container {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-}
-
-.item-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.item-card:hover .item-image {
-  transform: scale(1.05);
-}
-
-.item-info {
-  padding: 1rem;
-  text-align: center;
-}
-
-.item-name {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-  color: #474350;
-}
-
-.item-cost {
-  margin: 0;
+.header-title {
   font-weight: bold;
-  color: #474350;
+}
+.header-subtitle {
+  color: #b0b0b0;
+  font-weight: 400;
+  margin-left: 0.5em;
+}
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.connect-btn {
+  background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 14px;
+  padding: 1.1rem 2.5rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.connect-btn:hover {
+  background: linear-gradient(90deg, #249b7e 0%, #167a6a 100%);
+}
+.platform-subtext {
+  color: #757575;
+  font-size: 1.1rem;
+  margin-bottom: 2.2rem;
+}
+.divider-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2.2rem;
+}
+.divider {
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+}
+.or-text {
+  margin: 0 1.2em;
+  color: #757575;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.upload-box {
+  border: 2px dashed #bdbdbd;
+  border-radius: 14px;
+  width: 100%;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 0 1.5rem 0;
+  background: #fafafa;
+}
+.upload-icon {
+  margin-bottom: 0.7rem;
+  color: #222;
+}
+.upload-link {
+  color: #222;
+  font-size: 1.1rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+.upload-link:hover {
+  color: #2ca88c;
 }
 </style>
