@@ -33,13 +33,11 @@ function handleViewItem(item: object) {
 
 <template>
   <div class="app-layout">
-    <aside class="sidebar">
-      <div class="title">
-        <img src="@/assets/images/contraca_logo.png" />
-        <RouterLink :to="{ name: 'Home' }">
-          <h1 class="logo-title">Contraca</h1>
-        </RouterLink>
-      </div>
+    <nav class="top-navbar">
+      <RouterLink :to="{ name: 'Home' }" class="logo-title-row">
+        <img src="@/assets/images/contraca_logo.png" class="contraca-logo" />
+        <h1 class="contraca-title">Contraca</h1>
+      </RouterLink>
       <ul class="nav-bar-names">
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }">
@@ -51,26 +49,26 @@ function handleViewItem(item: object) {
         <li>
           <RouterLink :to="{ name: 'Documents' }" :class="{ underline: currentRouteName == 'Documents' }">
             <span class="nav-icon">
-              <img src="/client/assets/images/document_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
+              <img src="/client/assets/images/document_icon.png" alt="Documents" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
             </span>
           </RouterLink>
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }">
             <span class="nav-icon">
-              <img src="/client/assets/images/settings_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
+              <img src="/client/assets/images/settings_icon.png" alt="Settings" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
             </span>
           </RouterLink>
         </li>
         <li v-else>
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }">
             <span class="nav-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 16 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.09.29.14.59.14.91s-.05.62-.14.91z"/></svg>
+              <img src="/client/assets/images/settings_icon.png" alt="Login" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
             </span>
           </RouterLink>
         </li>
       </ul>
-    </aside>
+    </nav>
     <div class="main-content">
       <article v-if="toast !== null" class="toast" :class="toast.style">
         <p>{{ toast.message }}</p>
@@ -87,36 +85,43 @@ function handleViewItem(item: object) {
 
 .app-layout {
   display: flex;
-  min-height: 100vh;
-}
-
-.sidebar {
-  width: 220px;
-  background: linear-gradient(180deg, #6fe2c3 0%, #2ca88c 50%, #1b8b7a 100%);
-  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 2em 1em 2em 1em;
   min-height: 100vh;
 }
 
-.title {
+.top-navbar {
+  width: 100%;
+  background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  margin-bottom: 2em;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-sizing: border-box;
 }
 
-img {
-  height: 2em;
+.logo-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  text-decoration: none;
+  color: inherit;
 }
 
-.logo-title {
-  color: #fff !important;
+.logo-title-row:hover {
+  text-decoration: none;
+  background: none;
 }
 
-.title a {
-  color: #fff !important;
+.contraca-logo {
+  height: 2.5em;
+}
+
+.contraca-title {
+  color: #ffffff;
+  font-size: 2.2em;
+  margin: 0;
+  font-weight: 700;
 }
 
 ul.nav-bar-names {
@@ -124,27 +129,24 @@ ul.nav-bar-names {
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: 2em;
-  width: 100%;
+  flex-direction: row;
+  gap: 1.5em;
+  align-items: center;
 }
 
 ul.nav-bar-names li {
-  width: 100%;
-}
-
-ul.nav-bar-names li a {
-  color: #fff;
+  display: flex;
+  align-items: center;
 }
 
 a {
-  font-size: large;
-  color: black;
+  color: #fff;
   text-decoration: none;
-  display: block;
-  width: 100%;
-  padding: 0.5em 0.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
+  padding: 0.3em 0.7em;
   transition: background 0.2s;
 }
 
@@ -154,22 +156,23 @@ a.underline, a:hover {
   color: #fff;
 }
 
-.main-content {
-  flex: 1;
-  padding: 2em 2em 2em 2em;
-  background: #f1f3f5;
-  min-height: 100vh;
-}
-
-.toast {
-  margin-bottom: 1em;
-}
-
 .nav-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2.5em;
   height: 2.5em;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2em;
+  background: #f1f3f5;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.toast {
+  margin-bottom: 1em;
 }
 </style>
