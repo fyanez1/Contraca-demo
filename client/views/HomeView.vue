@@ -1,5 +1,13 @@
 <script setup lang="ts">
-// No logic needed for this static UI
+import { ref } from 'vue';
+const showUploadModal = ref(false);
+function openUploadModal(e) {
+  e.preventDefault();
+  showUploadModal.value = true;
+}
+function closeUploadModal() {
+  showUploadModal.value = false;
+}
 </script>
 
 <template>
@@ -20,7 +28,16 @@
         <div class="upload-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/></svg>
         </div>
-        <a href="#" class="upload-link">Upload Documents</a>
+        <a href="#" class="upload-link" @click="openUploadModal">Upload Documents</a>
+      </div>
+    </div>
+    <div v-if="showUploadModal" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Upload Documents</h2>
+        <input type="file" multiple />
+        <div class="modal-actions">
+          <button class="modal-btn" @click="closeUploadModal">Open</button>
+        </div>
       </div>
     </div>
   </main>
@@ -118,5 +135,48 @@
 }
 .upload-link:hover {
   color: #2ca88c;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-content h2 {
+  margin-bottom: 1.2rem;
+  color: #222;
+}
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.modal-btn {
+  background: #2ca88c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-btn:hover {
+  background: #1b8b7a;
 }
 </style>
