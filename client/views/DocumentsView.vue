@@ -7,10 +7,13 @@
     <div class="action-buttons">
       <button class="action-btn">Export Data as Spreadsheet</button>
       <button class="action-btn">Push Data to CRM</button>
-      <button class="action-btn automate">Automate Closing Documents</button>
+      <button class="action-btn">Automate Closing Documents</button>
     </div>
     <div class="documents-grid">
       <div v-for="doc in documents" :key="doc.title" class="doc-card">
+        <div class="doc-preview">
+          <embed :src="dummyPdf" type="application/pdf" width="60" height="80" />
+        </div>
         <div class="doc-info">
           <div class="doc-title">{{ doc.title }}</div>
           <div class="doc-date">Recieved: {{ doc.date }}</div>
@@ -21,20 +24,20 @@
 </template>
 
 <script setup lang="ts">
-// const dummyPdf = require('@/assets/documents/5102 E Larkspur (1) (1).pdf');
+import dummyPdf from '@/assets/documents/mini_sample.pdf';
 const documents = [
-  { title: 'Purchase & Sale', date: '12/8/24' },
-  { title: 'Exclusive Right to Sell', date: '12/8/24' },
-  { title: "Seller's Property Disclosure (SPDS)", date: '12/8/24' },
-  { title: 'Buyer Attachment', date: '12/8/24' },
-  { title: 'Market Conditions Advisory', date: '12/8/24' },
-  { title: 'Loan Confirmation', date: '12/8/24' },
-  { title: 'Wire Fraud Advisory', date: '12/8/24' },
-  { title: 'Addendum 1', date: '12/8/24' },
-  { title: 'Addendum 2', date: '12/8/24' },
-  { title: 'BINSR', date: '12/8/24' },
-  { title: 'Loan Status Update', date: '12/8/24' },
-  { title: 'Agency Disclosure and Election', date: '12/8/24' },
+  { title: 'Purchase & Sale', date: '5/19/2025' },
+  { title: 'Exclusive Right to Sell', date: '5/19/2025' },
+  { title: "Seller's Property Disclosure (SPDS)", date: '5/19/2025' },
+  { title: 'Buyer Attachment', date: '5/19/2025' },
+  { title: 'Market Conditions Advisory', date: '5/19/2025' },
+  { title: 'Loan Confirmation', date: '5/19/2025' },
+  { title: 'Wire Fraud Advisory', date: '5/19/2025' },
+  { title: 'Addendum 1', date: '5/19/2025' },
+  { title: 'Addendum 2', date: '5/19/2025' },
+  { title: 'BINSR', date: '5/19/2025' },
+  { title: 'Loan Status Update', date: '5/19/2025' },
+  { title: 'Agency Disclosure and Election', date: '5/19/2025' },
 ];
 </script>
 
@@ -76,14 +79,15 @@ const documents = [
   padding: 1rem 2.2rem;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+}
+.action-btn:hover {
+  background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
+  color: #fff;
 }
 .action-btn.automate {
   background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
   color: #fff;
-}
-.action-btn:not(.automate):hover {
-  background: #e0e0e0;
 }
 .action-btn.automate:hover {
   background: linear-gradient(90deg, #249b7e 0%, #167a6a 100%);

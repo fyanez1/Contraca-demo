@@ -145,16 +145,10 @@ const optionalDocs = [
   padding: 1.3rem 0;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-.action-btn.send {
+.action-btn:hover {
   background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
   color: #fff;
-}
-.action-btn:not(.send):hover {
-  background: #e0e0e0;
-}
-.action-btn.send:hover {
-  background: linear-gradient(90deg, #249b7e 0%, #167a6a 100%);
 }
 </style> 
