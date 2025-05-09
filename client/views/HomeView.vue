@@ -54,6 +54,10 @@ function goToDocuments() {
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
   padding: 2.5rem 2rem 2rem 2rem;
+  height: calc(100vh - 120px); /* Account for navbar and margins */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .header-bar {
   display: flex;
@@ -75,6 +79,7 @@ function goToDocuments() {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 }
 .connect-btn {
   background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);

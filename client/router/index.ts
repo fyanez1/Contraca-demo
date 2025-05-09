@@ -5,10 +5,8 @@ import { useUserStore } from "@/stores/user";
 import DocumentsView from "../views/DocumentsView.vue";
 import FinishedDocumentsView from "../views/FinishedDocumentsView.vue";
 import HomeView from "../views/HomeView.vue";
-import ItemView from "../views/ItemView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
-import SellItemView from "../views/SellItemView.vue";
 import SettingView from "../views/SettingView.vue";
 
 const router = createRouter({
@@ -20,21 +18,9 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/sell",
-      name: "Sell Item",
-      component: SellItemView,
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/setting",
       name: "Settings",
       component: SettingView,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: "/item",
-      name: "View Item",
-      component: ItemView,
       meta: { requiresAuth: true },
     },
     {

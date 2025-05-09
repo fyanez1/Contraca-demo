@@ -5,7 +5,6 @@ import { storeToRefs } from "pinia";
 import { computed, onBeforeMount, ref } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import HomeView from "./views/HomeView.vue";
-import ItemView from "./views/ItemView.vue";
 
 const currentRoute = useRoute();
 const router = useRouter();
@@ -74,7 +73,6 @@ function handleViewItem(item: object) {
         <p>{{ toast.message }}</p>
       </article>
       <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" />
-      <ItemView v-else-if="currentRouteName === 'View Item'" :item="selectedItem" />
       <RouterView v-else />
     </div>
   </div>
@@ -87,12 +85,27 @@ function handleViewItem(item: object) {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background: #f1f3f5;
+  background: #f8f9fa;
+  color: #1a1a1a;
+  line-height: 1.5;
+}
+
+button, a {
+  transition: all 0.2s ease;
+}
+
+:root {
+  --primary-gradient: linear-gradient(90deg, #3db89c 0%, #2ca88c 50%, #1b8b7a 100%);
+  --primary-hover: linear-gradient(90deg, #45c5a7 0%, #34b79a 50%, #229a87 100%);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 </style>
 
@@ -107,30 +120,38 @@ body {
 
 .top-navbar {
   width: 100%;
-  background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
+  background: var(--primary-gradient);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em 1em;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 0.75em 1.5em;
+  box-shadow: var(--shadow-md);
   box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo-title-row {
   display: flex;
   align-items: center;
-  gap: 0.7em;
+  gap: 0.8em;
   text-decoration: none;
   color: inherit;
+  padding: 0.5em 0.8em;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .logo-title-row:hover {
   text-decoration: none;
-  background: none;
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
 }
 
 .contraca-logo {
   height: 2.5em;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .contraca-title {
@@ -139,7 +160,7 @@ body {
   margin: 0;
   font-weight: 600;
   letter-spacing: -0.03em;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 ul.nav-bar-names {
@@ -164,14 +185,15 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  padding: 0.3em 0.7em;
-  transition: background 0.2s;
+  padding: 0.5em 0.8em;
+  transition: all 0.2s ease;
 }
 
 a.underline, a:hover {
-  text-decoration: underline;
-  background: rgba(255,255,255,0.12);
+  text-decoration: none;
+  background: rgba(255,255,255,0.15);
   color: #fff;
+  transform: translateY(-1px);
 }
 
 .nav-icon {
@@ -185,12 +207,14 @@ a.underline, a:hover {
 .main-content {
   flex: 1;
   padding: 2em;
-  background: #f1f3f5;
+  background: #f8f9fa;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 .toast {
   margin-bottom: 1em;
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
 }
 </style>

@@ -32,6 +32,10 @@ async function delete_() {
   max-width: 600px;
   margin: 2.5rem auto;
   padding: 0 1.5rem;
+  height: calc(100vh - 120px); /* Account for navbar and margins */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
