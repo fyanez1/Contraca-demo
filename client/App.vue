@@ -80,6 +80,22 @@ function handleViewItem(item: object) {
   </div>
 </template>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f1f3f5;
+}
+</style>
+
 <style scoped>
 @import "./assets/toast.css";
 
@@ -119,9 +135,11 @@ function handleViewItem(item: object) {
 
 .contraca-title {
   color: #ffffff;
-  font-size: 2.2em;
+  font-size: 2rem;
   margin: 0;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 ul.nav-bar-names {
