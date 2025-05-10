@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="progress-text">
-      43,054 of 73,203<br />
+      {{ currentDocs.toLocaleString() }} of {{ totalDocs.toLocaleString() }}<br />
       <span class="progress-sub">Documents Uploaded</span>
     </div>
     <div class="extracting-footer">Feel free to close browser</div>
@@ -16,15 +16,33 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const percent = ref(59); // 43,054 / 73,203 ≈ 59%
+const percent = ref(0);
+const currentDocs = ref(0);
+const totalDocs = 73203;
+const startDocs = 0;
+const endDocs = 43054;
+let interval: number | undefined;
 
 onMounted(() => {
-  setTimeout(() => {
-    router.push({ name: 'Home' });
-  }, 2000);
+  const duration = 4000; // 4 seconds
+  const steps = 100;
+  let step = 0;
+  interval = window.setInterval(() => {
+    step++;
+    percent.value = Math.min(100, (step / steps) * 100);
+    currentDocs.value = Math.floor(startDocs + (endDocs - startDocs) * (step / steps));
+    if (step >= steps) {
+      clearInterval(interval);
+      setTimeout(() => router.push({ name: 'Home' }), 200);
+    }
+  }, duration / steps);
+});
+
+onBeforeUnmount(() => {
+  if (interval) clearInterval(interval);
 });
 </script>
 
