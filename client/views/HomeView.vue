@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import LoginModal from '@/components/LoginModal.vue';
 const showUploadModal = ref(false);
+const showLoginModal = ref(false);
 const router = useRouter();
 function openUploadModal(e) {
   e.preventDefault();
@@ -10,6 +12,12 @@ function openUploadModal(e) {
 function goToDocuments() {
   showUploadModal.value = false;
   router.push({ name: 'Documents' });
+}
+function openLoginModal() {
+  showLoginModal.value = true;
+}
+function closeLoginModal() {
+  showLoginModal.value = false;
 }
 </script>
 
@@ -20,7 +28,7 @@ function goToDocuments() {
       <span class="header-subtitle">| 42 Wallaby Way</span>
     </div>
     <div class="main-content">
-      <button class="connect-btn">Connect your Transaction Platform</button>
+      <button class="connect-btn" @click="openLoginModal">Connect your Transaction Platform</button>
       <div class="platform-subtext">Dotloop, Lonewolf, Skyslope</div>
       <div class="divider-row">
         <div class="divider"></div>
@@ -43,6 +51,7 @@ function goToDocuments() {
         </div>
       </div>
     </div>
+    <LoginModal v-if="showLoginModal" @click.self="closeLoginModal" />
   </main>
 </template>
 
