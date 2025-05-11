@@ -14,6 +14,7 @@ const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
 
 const selectedItem = ref();
+const homeViewKey = ref(0);
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
@@ -28,18 +29,23 @@ function handleViewItem(item: object) {
   selectedItem.value = item;
   void router.push({ name: "View Item" });
 }
+
+function goHomeAndReset() {
+  homeViewKey.value++;
+  router.push({ name: 'Home' });
+}
 </script>
 
 <template>
   <div class="app-layout">
     <nav class="top-navbar">
-      <RouterLink :to="{ name: 'Home' }" class="logo-title-row">
+      <RouterLink :to="{ name: 'Home' }" class="logo-title-row" @click.native="goHomeAndReset">
         <img src="@/assets/images/contraca_logo.png" class="contraca-logo" />
         <h1 class="contraca-title">Contraca</h1>
       </RouterLink>
       <ul class="nav-bar-names">
         <li>
-          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }">
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }" @click.native="goHomeAndReset">
             <span class="nav-icon">
               <img src="/client/assets/images/home_icon.png" alt="Home" style="width: 28px; height: 28px; filter: brightness(0) invert(1);" />
             </span>
@@ -72,7 +78,7 @@ function handleViewItem(item: object) {
       <article v-if="toast !== null" class="toast" :class="toast.style">
         <p>{{ toast.message }}</p>
       </article>
-      <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" />
+      <HomeView v-if="currentRouteName === 'Home'" @view-item="handleViewItem" :key="homeViewKey" />
       <RouterView v-else />
     </div>
   </div>

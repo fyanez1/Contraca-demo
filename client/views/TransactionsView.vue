@@ -58,7 +58,7 @@ const transactions = ref([
 
 const handleView = (transaction: any) => {
   selectedProperty.value = transaction.property;
-  router.push({ name: 'Documents' });
+  router.push({ name: 'Documents', query: { property: transaction.property } });
 };
 </script>
 

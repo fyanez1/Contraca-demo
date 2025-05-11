@@ -2,7 +2,7 @@
   <main class="finished-docs-main">
     <div class="header-bar">
       <span class="header-title">Document Automation</span>
-      <span class="header-subtitle">| 42 Wallaby Way</span>
+      <span class="header-subtitle">| {{ propertyName }}</span>
     </div>
     <div class="finished-docs-content">
       <div class="docs-list-section">
@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+const props = defineProps<{ propertyName: string }>();
 const router = useRouter();
 const requiredDocs = [
   'Commission Disbursement Authorization (CDA)',
