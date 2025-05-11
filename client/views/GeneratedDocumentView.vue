@@ -10,8 +10,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { jsPDF } from 'jspdf';
 
 const route = useRoute();
 const docType = decodeURIComponent(route.query.doc as string || 'Document');
@@ -41,6 +42,24 @@ onMounted(async () => {
     error.value = (e as Error).message || 'Unknown error.';
   } finally {
     loading.value = false;
+  }
+});
+
+watch(result, (newVal) => {
+  if (newVal && !loading.value && !error.value) {
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const margin = 40;
+    const maxWidth = 515;
+    let y = margin + 30;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.text(docType, margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    y += 30;
+    const lines = doc.splitTextToSize(newVal, maxWidth);
+    doc.text(lines, margin, y);
+    doc.save(`${docType.replace(/[^a-z0-9]/gi, '_')}.pdf`);
   }
 });
 </script>
