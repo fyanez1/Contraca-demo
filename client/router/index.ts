@@ -2,16 +2,16 @@ import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
-import CommissionDisbursementAuthorizationView from '../views/CommissionDisbursementAuthorizationView.vue';
+import CommissionDisbursementAuthorizationView from "../views/CommissionDisbursementAuthorizationView.vue";
 import DocumentsView from "../views/DocumentsView.vue";
-import ExtractingDataView from '../views/ExtractingDataView.vue';
+import ExtractingDataView from "../views/ExtractingDataView.vue";
 import FinishedDocumentsView from "../views/FinishedDocumentsView.vue";
-import GeneratedDocumentView from '../views/GeneratedDocumentView.vue';
+import GeneratedDocumentView from "../views/GeneratedDocumentView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import SettingView from "../views/SettingView.vue";
-import TransactionsView from '../views/TransactionsView.vue';
+import TransactionsView from "../views/TransactionsView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -55,18 +55,18 @@ const router = createRouter({
       component: FinishedDocumentsView,
     },
     {
-      path: '/extracting',
-      name: 'ExtractingData',
+      path: "/extracting",
+      name: "ExtractingData",
       component: ExtractingDataView,
     },
     {
-      path: '/commission-disbursement-authorization',
-      name: 'CommissionDisbursementAuthorization',
+      path: "/commission-disbursement-authorization",
+      name: "CommissionDisbursementAuthorization",
       component: CommissionDisbursementAuthorizationView,
     },
     {
-      path: '/generated-document',
-      name: 'GeneratedDocument',
+      path: "/generated-document",
+      name: "GeneratedDocument",
       component: GeneratedDocumentView,
     },
     {

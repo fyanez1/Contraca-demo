@@ -40,7 +40,9 @@ import { useRoute } from 'vue-router';
 import dummyPdf from '@/assets/documents/mini_sample.pdf';
 import FinishedDocumentsView from './FinishedDocumentsView.vue';
 const route = useRoute();
-const propertyName = route.query.property || '42 Wallaby Way';
+const propertyName = Array.isArray(route.query.property)
+  ? route.query.property[0] || '42 Wallaby Way'
+  : route.query.property || '42 Wallaby Way';
 const documents = [
   { title: 'Purchase & Sale', date: '5/19/2025' },
   { title: 'Exclusive Right to Sell', date: '5/19/2025' },

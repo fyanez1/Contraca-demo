@@ -6,7 +6,7 @@ const showUploadModal = ref(false);
 const showLoginModal = ref(false);
 const showAutomation = ref(false);
 const router = useRouter();
-function openUploadModal(e) {
+function openUploadModal(e: Event) {
   e.preventDefault();
   showUploadModal.value = true;
 }

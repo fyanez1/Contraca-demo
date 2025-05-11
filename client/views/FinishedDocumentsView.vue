@@ -66,7 +66,7 @@ const optionalDocs = [
   'Warranty Submission Confirmation',
   'Marketing Authorization Form',
 ];
-function downloadDoc(docName) {
+function downloadDoc(docName: string) {
   router.push({ name: 'GeneratedDocument', query: { doc: encodeURIComponent(docName) } });
 }
 </script>
