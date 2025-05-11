@@ -2,6 +2,7 @@ import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
+import CommissionDisbursementAuthorizationView from '../views/CommissionDisbursementAuthorizationView.vue';
 import DocumentsView from "../views/DocumentsView.vue";
 import ExtractingDataView from '../views/ExtractingDataView.vue';
 import FinishedDocumentsView from "../views/FinishedDocumentsView.vue";
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/extracting',
       name: 'ExtractingData',
       component: ExtractingDataView,
+    },
+    {
+      path: '/commission-disbursement-authorization',
+      name: 'CommissionDisbursementAuthorization',
+      component: CommissionDisbursementAuthorizationView,
     },
     {
       path: "/:catchAll(.*)",

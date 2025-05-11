@@ -1,4 +1,8 @@
+import dotenv from 'dotenv';
 import { ObjectId } from "mongodb";
+import OpenAI from 'openai';
+import xlsx from 'xlsx';
+dotenv.config();
 
 import { Router, getExpressRouter } from "./framework/router";
 
@@ -8,6 +12,8 @@ import { SessionDoc } from "./concepts/sessioning";
 import Responses from "./responses";
 
 import { z } from "zod";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 /**
  * Web server routes for the app. Implements synchronizations between concepts.
@@ -290,6 +296,29 @@ class Routes {
     await Rating.assertRaterIsUser(user, sellerOid, itemOid);
     await Rating.changeRating(sellerOid, itemOid, user, rating);
     return { msg: "The rating has been updated." };
+  }
+
+  @Router.post('/openai/cda')
+  async generateCDAForm(prompt: string) {
+    try {
+      // Read and parse the Excel file
+      const workbook = xlsx.readFile('server/assets/documents/ExtractedContractData.xlsx');
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+      // Convert to CSV for prompt clarity
+      const csvData = jsonData.map(row => (row as any[]).join(',')).join('\n');
+      // Compose the full prompt
+      const fullPrompt = `${prompt}\n\nHere is the extracted spreadsheet data from the transaction (as CSV):\n${csvData}`;
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: fullPrompt }],
+        max_tokens: 1200,
+      });
+      return { result: completion.choices[0].message.content };
+    } catch (err: any) {
+      return { error: err.message || 'OpenAI API error.' };
+    }
   }
 }
 

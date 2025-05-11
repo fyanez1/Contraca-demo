@@ -26,6 +26,7 @@
         </div>
       </div>
       <div class="action-panel">
+        <button class="test-btn" @click="goToCDA">test</button>
         <button class="action-btn send">Send Documents</button>
         <button class="action-btn">Push Data to CRM</button>
         <button class="action-btn">Push Data to Accounting</button>
@@ -36,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const requiredDocs = [
   'Commission Disbursement Authorization (CDA)',
   'Final Deal Sheet',
@@ -59,6 +62,9 @@ const optionalDocs = [
   'Warranty Submission Confirmation',
   'Marketing Authorization Form',
 ];
+function goToCDA() {
+  router.push({ name: 'CommissionDisbursementAuthorization' });
+}
 </script>
 
 <style scoped>
@@ -150,5 +156,25 @@ const optionalDocs = [
 .action-btn:hover {
   background: linear-gradient(90deg, #2ca88c 0%, #1b8b7a 100%);
   color: #fff;
+}
+.test-btn {
+  background: #1b8b7a;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 18px;
+  padding: 1.2rem 0;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  width: 100%;
+  letter-spacing: 0.02em;
+}
+.test-btn:hover {
+  background: #249b7e;
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
 }
 </style> 
