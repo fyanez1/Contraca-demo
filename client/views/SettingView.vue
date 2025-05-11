@@ -51,7 +51,7 @@ h1 {
   color: #222;
   font-size: 1rem;
   font-weight: 500;
-  border: none;
+  border: 2px solid #111;
   border-radius: 12px;
   padding: 1rem 2.2rem;
   margin-bottom: 1rem;

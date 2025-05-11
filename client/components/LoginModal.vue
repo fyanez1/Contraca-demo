@@ -40,7 +40,7 @@ const router = useRouter();
 const emit = defineEmits(['close']);
 
 function onSubmit() {
-  router.push({ name: 'ExtractingData' });
+  router.push({ name: 'Documents' });
   emit('close');
 }
 </script>

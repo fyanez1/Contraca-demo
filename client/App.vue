@@ -101,8 +101,8 @@ button, a {
 }
 
 :root {
-  --primary-gradient: linear-gradient(90deg, #3db89c 0%, #2ca88c 50%, #1b8b7a 100%);
-  --primary-hover: linear-gradient(90deg, #45c5a7 0%, #34b79a 50%, #229a87 100%);
+  --primary-gradient: linear-gradient(90deg, #fff 0%, #2ca88c 30%, #1b8b7a 100%);
+  --primary-hover: linear-gradient(90deg, #e6f7f3 0%, #34b79a 50%, #229a87 100%);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -120,7 +120,7 @@ button, a {
 
 .top-navbar {
   width: 100%;
-  background: var(--primary-gradient);
+  background: linear-gradient(90deg, #fff 0%, #2ca88c 30%, #1b8b7a 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
