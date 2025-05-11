@@ -3,7 +3,7 @@
     <div class="breadcrumb-row">
       <span class="breadcrumb-link" @click="goToDocuments">Documents</span>
       <span class="breadcrumb-separator">&gt;</span>
-      <span class="breadcrumb-link" @click="goToFinished">Finished Documents</span>
+      <span class="breadcrumb-link" @click="goToFinished">Post-Closing Documents</span>
       <span class="breadcrumb-separator">&gt;</span>
       <span class="breadcrumb-current">{{ docType }}</span>
     </div>
@@ -37,7 +37,7 @@ function goToDocuments() {
   router.push({ name: 'Documents' });
 }
 function goToFinished() {
-  router.push({ name: 'Finished Documents' });
+  router.push({ name: 'Post-Closing Documents' });
 }
 
 onMounted(async () => {

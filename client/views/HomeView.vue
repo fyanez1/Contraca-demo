@@ -12,7 +12,7 @@ function openUploadModal(e) {
 }
 function goToDocuments() {
   showUploadModal.value = false;
-  router.push({ name: 'Documents' });
+  router.push({ name: 'Transactions' });
 }
 function openLoginModal() {
   showLoginModal.value = true;

@@ -11,6 +11,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import SettingView from "../views/SettingView.vue";
+import TransactionsView from '../views/TransactionsView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -44,8 +45,13 @@ const router = createRouter({
       component: DocumentsView,
     },
     {
+      path: "/transactions",
+      name: "Transactions",
+      component: TransactionsView,
+    },
+    {
       path: "/finished-documents",
-      name: "Finished Documents",
+      name: "Post-Closing Documents",
       component: FinishedDocumentsView,
     },
     {

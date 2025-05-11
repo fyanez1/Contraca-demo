@@ -40,7 +40,7 @@ const router = useRouter();
 const emit = defineEmits(['close']);
 
 function onSubmit() {
-  router.push({ name: 'Documents' });
+  router.push({ name: 'Transactions' });
   emit('close');
 }
 </script>

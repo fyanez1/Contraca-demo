@@ -7,7 +7,7 @@
     <div v-if="showFinished" class="breadcrumb-row">
       <span class="breadcrumb-link" @click="goToDocuments">Documents</span>
       <span class="breadcrumb-separator">&gt;</span>
-      <span class="breadcrumb-current">Finished Documents</span>
+      <span class="breadcrumb-current">Post-Closing Documents</span>
     </div>
     <div v-else class="breadcrumb-row">
       <span class="breadcrumb-current">Documents</span>
