@@ -6,6 +6,7 @@ import CommissionDisbursementAuthorizationView from '../views/CommissionDisburse
 import DocumentsView from "../views/DocumentsView.vue";
 import ExtractingDataView from '../views/ExtractingDataView.vue';
 import FinishedDocumentsView from "../views/FinishedDocumentsView.vue";
+import GeneratedDocumentView from '../views/GeneratedDocumentView.vue';
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/commission-disbursement-authorization',
       name: 'CommissionDisbursementAuthorization',
       component: CommissionDisbursementAuthorizationView,
+    },
+    {
+      path: '/generated-document',
+      name: 'GeneratedDocument',
+      component: GeneratedDocumentView,
     },
     {
       path: "/:catchAll(.*)",
