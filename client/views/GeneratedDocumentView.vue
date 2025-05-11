@@ -50,8 +50,10 @@ onMounted(async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt }),
     });
-    if (!response.ok) throw new Error('Failed to generate document.');
     const data = await response.json();
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'Failed to generate document.');
+    }
     result.value = data.result || data.choices?.[0]?.text || 'No result.';
   } catch (e) {
     error.value = (e as Error).message || 'Unknown error.';
