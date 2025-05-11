@@ -1,5 +1,12 @@
 <template>
   <div class="cda-container">
+    <div class="breadcrumb-row">
+      <span class="breadcrumb-link" @click="goToDocuments">Documents</span>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span class="breadcrumb-link" @click="goToFinished">Finished Documents</span>
+      <span class="breadcrumb-separator">&gt;</span>
+      <span class="breadcrumb-current">{{ docType }}</span>
+    </div>
     <div v-if="loading" class="cda-loading">Generating {{ docType }}...</div>
     <div v-else-if="error" class="cda-error">{{ error }}</div>
     <div v-else class="cda-result">
@@ -11,10 +18,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { jsPDF } from 'jspdf';
 
 const route = useRoute();
+const router = useRouter();
 const docType = decodeURIComponent(route.query.doc as string || 'Document');
 
 const loading = ref(true);
@@ -24,6 +32,13 @@ const result = ref('');
 const basePrompt = `Using the terms from the spreadsheet provided containing the data from a residential real estate transaction, create a {DOC_TYPE} form for the real estate agent. Do research for what the standard {DOC_TYPE} looks like in the state of the transaction–specifically all the information needed from the transaction to complete it. Then auto populate the terms needed to complete the {DOC_TYPE} form from the spreadsheet. Do not make this form as a spreadsheet, make it in the standard format that the {DOC_TYPE} form is typically made and distributed.`;
 
 const prompt = basePrompt.replaceAll('{DOC_TYPE}', docType);
+
+function goToDocuments() {
+  router.push({ name: 'Documents' });
+}
+function goToFinished() {
+  router.push({ name: 'Finished Documents' });
+}
 
 onMounted(async () => {
   loading.value = true;
@@ -68,9 +83,34 @@ watch(result, (newVal) => {
 .cda-container {
   min-height: 60vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.breadcrumb-row {
+  display: flex;
+  align-items: center;
+  font-size: 1.15rem;
+  margin-bottom: 2.2rem;
+  margin-top: 1.2rem;
+  gap: 0.5em;
+}
+.breadcrumb-link {
+  color: #3683c5;
+  font-weight: 600;
+  cursor: pointer;
+}
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+.breadcrumb-separator {
+  color: #b0b0b0;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.breadcrumb-current {
+  color: #b0b0b0;
+  font-weight: 600;
 }
 .cda-loading {
   font-size: 1.3rem;
