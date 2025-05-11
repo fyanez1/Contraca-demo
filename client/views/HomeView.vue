@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import LoginModal from '@/components/LoginModal.vue';
 const showUploadModal = ref(false);
 const showLoginModal = ref(false);
+const showAutomation = ref(false);
 const router = useRouter();
 function openUploadModal(e) {
   e.preventDefault();
@@ -19,43 +20,85 @@ function openLoginModal() {
 function closeLoginModal() {
   showLoginModal.value = false;
 }
+function showAutomationSection() {
+  showAutomation.value = true;
+}
 </script>
 
 <template>
-  <main class="doc-automation-container">
-    <div class="header-bar">
-      <span class="header-title">Document Automation</span>
-      <span class="header-subtitle">| 42 Wallaby Way</span>
-    </div>
-    <div class="main-content">
-      <button class="connect-btn" @click="openLoginModal">Connect your Transaction Platform</button>
-      <div class="platform-subtext">Dotloop, Lonewolf, Skyslope</div>
-      <div class="divider-row">
-        <div class="divider"></div>
-        <span class="or-text">OR</span>
-        <div class="divider"></div>
+  <main class="doc-automation-container" :class="{ 'centered': !showAutomation }">
+    <template v-if="!showAutomation">
+      <button class="home-big-btn" @click="showAutomationSection">Automate Transaction Documents</button>
+      <button class="home-big-btn">Set Up Email Automation</button>
+    </template>
+    <template v-else>
+      <div class="header-bar">
+        <span class="header-title">Document Automation</span>
+        <span class="header-subtitle">| 42 Wallaby Way</span>
       </div>
-      <div class="upload-box">
-        <div class="upload-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/></svg>
+      <div class="main-content">
+        <button class="connect-btn" @click="openLoginModal">Connect your Transaction Platform</button>
+        <div class="platform-subtext">Dotloop, Lonewolf, Skyslope</div>
+        <div class="divider-row">
+          <div class="divider"></div>
+          <span class="or-text">OR</span>
+          <div class="divider"></div>
         </div>
-        <a href="#" class="upload-link" @click="openUploadModal">Upload Documents</a>
-      </div>
-    </div>
-    <div v-if="showUploadModal" class="modal-overlay">
-      <div class="modal-content">
-        <h2>Upload Documents</h2>
-        <input type="file" multiple />
-        <div class="modal-actions">
-          <button class="modal-btn" @click="goToDocuments">Open</button>
+        <div class="upload-box">
+          <div class="upload-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/><rect x="3" y="19" width="18" height="2" rx="1"/></svg>
+          </div>
+          <a href="#" class="upload-link" @click="openUploadModal">Upload Documents</a>
         </div>
       </div>
-    </div>
-    <LoginModal v-if="showLoginModal" @click.self="closeLoginModal" />
+      <div v-if="showUploadModal" class="modal-overlay">
+        <div class="modal-content">
+          <h2>Upload Documents</h2>
+          <input type="file" multiple />
+          <div class="modal-actions">
+            <button class="modal-btn" @click="goToDocuments">Open</button>
+          </div>
+        </div>
+      </div>
+      <LoginModal v-if="showLoginModal" @click.self="closeLoginModal" />
+    </template>
   </main>
 </template>
 
 <style scoped>
+.doc-automation-container.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 4rem auto 0 auto;
+  padding: 2.5rem 2rem;
+}
+.home-big-btn {
+  width: 100%;
+  max-width: 520px;
+  margin: 1.1rem 0;
+  font-size: 2.1rem;
+  font-weight: 500;
+  color: #666;
+  background: #f7f7f7;
+  /* border: none; */
+  border-radius: 14px;
+  padding: 1.2rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+}
+.home-big-btn:hover {
+  background: #e0e0e0;
+  color: #1b8b7a;
+  transform: translateY(-2px) scale(1.03);
+}
 .doc-automation-container {
   max-width: 500px;
   margin: 3rem auto;
