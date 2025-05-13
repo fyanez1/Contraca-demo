@@ -45,6 +45,7 @@ const router = useRouter();
 const statusFilter = ref('All');
 
 const transactions = ref([
+  { id: 'TXN-000', client: 'Acme Corp', property: '7890 E. Oak Street', address: 'Phoenix, AZ 85022', completion: 100, date: '5/19/25' },
   { id: 'TXN-001', client: 'John Doe', property: '42 Wallaby Way', address: 'Katonah NY, 10536', completion: 100, date: '3/4/25' },
   { id: 'TXN-002', client: 'Jane Smith', property: '14 Radcliff Street', address: 'Bedford NY, 10518', completion: 100, date: '2/27/25' },
   { id: 'TXN-003', client: 'Acme Corp', property: '1 Chestnut Lane', address: 'White Plains NY, 10605', completion: 36, date: '2/27/25' },
